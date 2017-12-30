@@ -1,0 +1,87 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vkozlov <vkozlov@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/12/02 11:04:52 by vkozlov           #+#    #+#              #
+#    Updated: 2017/12/28 16:17:25 by vkozlov          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = libftprintf.a
+
+CC = gcc -Wall -Wextra -Werror
+
+IDIR = ./include
+
+CFLAGS = -I$(IDIR)
+
+ODIR = obj
+
+LDIR = ./libft
+
+LIBFT = $(LDIR)/libft.a
+
+SDIR = src
+
+SRC =	ft_printf.c \
+		parse_option.c \
+		char_cases/char_cases.c \
+		char_cases/cases_string.c \
+		char_cases/cases_char.c \
+		char_cases/put_wchar.c \
+		num_cases/num_cases.c \
+		num_cases/cases_decimal.c \
+		num_cases/cases_hex_oct.c \
+		num_cases/cases_long_num.c \
+		num_cases/num_service.c \
+		num_cases/unum_cases.c \
+		other_cases.c \
+		utils/service.c \
+		utils/length.c 
+		
+_OBJ = $(SRC:%.c=%.o)
+
+_DEPS = ft_printf.h
+
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+all: $(NAME)
+
+obj:
+	@mkdir -p $(ODIR)
+	@mkdir -p $(ODIR)/utils
+	@mkdir -p $(ODIR)/char_cases
+	@mkdir -p $(ODIR)/num_cases
+	@mkdir -p $(ODIR)/other_cases
+
+$(ODIR)/%.o: $(SDIR)/%.c $(DEPS)
+	@$(CC) -c -o $@ $< $(CFLAGS)
+
+$(NAME): obj	$(LIBFT) $(OBJ)
+			@cp libft/libft.a ./$(NAME)
+			@ar rc $(NAME) $(OBJ)
+			@ranlib $(NAME)
+
+$(LIBFT):
+	@make -C $(LDIR)
+rmlibobj:
+	@make clean -C $(LDIR)
+
+rmlib:
+	@/bin/rm -f $(LIBFT)
+
+.PHONY: all clean fclean re
+.NOTPARALLEL: all clean fclean re
+
+clean : rmlibobj
+	@/bin/rm -rf $(ODIR)
+
+fclean: clean rmlib
+	@/bin/rm -f $(NAME)
+
+re : fclean all
