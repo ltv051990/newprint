@@ -73,6 +73,7 @@ void		ft_print_o(va_list ap, t_struct *flags, char format);
 void		ft_take_unsigned_xo(uint64_t *b, va_list ap, t_struct *flags);
 void		ft_presizion_memory(t_struct *flags, char **a, uint64_t b);
 char		*ft_print_octet(int *tmp, int index);
+void		ft_toapper_if_x(char **a, char x);
 int			ft_printf(const char *format, ...);
 
 #endif
