@@ -32,7 +32,7 @@ static		void	ft_nbstr_with_prezition(char **a, long long b, t_struct *flags)
 
 	flags->count_nb = ft_search(len = b >= 0 ? b : b * -1);
 	src = ft_itoa_long(b);
-	if (flags->presizion > flags->count_nb) // добавляємо нулі перед числом коли точність
+	if (flags->presizion > flags->count_nb)
 	{
 		*a = ft_strnew(flags->presizion + 1);
 		ft_memset(*a, '0', flags->presizion - flags->count_nb);
@@ -73,13 +73,13 @@ static		void	ft_nbstr_with_minsize(char **a, t_struct *flags)
 	if (flags->presizion == -1 && delta_size > 0)
 	{
 		g = ft_strnew(flags->min_size);
-		if (delta_size > 0 && flags->minus == '-')//вирівнювання по лівому краю без нулів із шир
+		if (delta_size > 0 && flags->minus == '-')
 		{
 			g = ft_strcpy(g, *a);
 			ft_memset(g + ft_strlen(*a), ' ', delta_size);
 		}
 		else if (delta_size > 0 && flags->minus != '-' && flags->zero == '\0')
-		{ // вирівнювання по правому краю з врахуванням шир
+		{
 			ft_memset(g, ' ', delta_size);
 			g = ft_strcat(g, *a);
 		}

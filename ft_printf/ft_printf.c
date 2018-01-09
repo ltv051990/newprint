@@ -18,16 +18,16 @@
 
 void	ft_defolt_struct(t_struct *flags)
 {
-	flags->min_size = -1; 			// флаг розміру
-	flags->presizion = -1; 			// флаг точності
-	flags->print_size = 0;			// кількість байт для друку
+	flags->min_size = -1;
+	flags->presizion = -1;
+	flags->print_size = 0;
 	flags->space = -1;
-	flags->plus = '\0'; 			// флаг плюса
-	flags->minus = '\0'; 			// флаг мінуса
-	flags->zero = '\0'; 			// флаг нуля
-	flags->sharp = 0;				// флаг шарпа
-	flags->mod_size = '\0';			// специфікатор розміру
-	flags->count_nb = 0;			// к-ть симв в числі (-/+н,р)
+	flags->plus = '\0';
+	flags->minus = '\0';
+	flags->zero = '\0';
+	flags->sharp = 0;
+	flags->mod_size = '\0';
+	flags->count_nb = 0;
 	flags->char_costil = '\0';
 }
 
@@ -103,8 +103,6 @@ void	ft_write_to_struct_mod_flags(char mod, t_struct *flags)
 			flags->minus = '-';
 		if (mod == '+')
 			flags->plus = '+';
-		// if (mod == '0')
-		// 	flags->zero = '0';
 }
 
 int		ft_read_spec(char *format, t_struct *flags)
@@ -182,7 +180,7 @@ int 	ft_read_spec_start(char *format, va_list ap, t_struct *flags)
 void	ft_start_read(char *format, va_list ap, t_struct *flags)
 {
 	int index = 0;
-	while (*format != '\0')
+	while (*format != '\0' && flags->un_costil == 1)
 	{
 		while (*format && *format != '%' && ++(flags->write_count))
 			ft_putchar(*format++);
@@ -202,33 +200,6 @@ void	ft_start_read(char *format, va_list ap, t_struct *flags)
 	}
 }
 
-
-// void	ft_start_read(char *format, va_list ap, t_struct *flags)
-// {
-// 	while (*format != '\0')
-// 	{
-// 		while (*format && *format != '%' && ++(flags->write_count))
-// 		{
-// 			ft_putchar(*format);
-// 			format++;
-// 		}
-// 		if (*format == '%')
-// 		{
-// 			if (*format == '%' && *(format + 1) == '%' && *(format + 2) == '\0')
-// 			{
-// 				ft_putchar('%');
-// 				++(flags->write_count);
-// 				return ;
-// 			}
-// 			format++;
-// 			if (*format == '%' && ++(flags->write_count))
-// 				ft_putchar('%');
-// 			else
-// 				format = format + ft_read_spec(format, ap, flags) + 1;
-// 		}
-// 	}
-// }
-
 /*
 *** inizial struct and inizial va_arg
 */
@@ -237,6 +208,7 @@ int		ft_printf(const char *format, ...)
 {
 	t_struct flags;
 	flags.write_count = 0;
+	flags.un_costil = 1;
 	va_list ap;
 	va_start(ap, format);
 	ft_defolt_struct(&flags);
@@ -244,5 +216,7 @@ int		ft_printf(const char *format, ...)
 		return (0);
 	ft_start_read((char *)format, ap, &flags);
 	va_end(ap);
+	if (flags.un_costil == -1)
+		return (-1);
 	return (flags.write_count);
 }
