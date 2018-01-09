@@ -29,6 +29,8 @@ void	ft_defolt_struct(t_struct *flags)
 	flags->mod_size = '\0';
 	flags->count_nb = 0;
 	flags->char_costil = '\0';
+	flags->size = 0;
+	flags->src = NULL;
 }
 
 /*
