@@ -69,3 +69,23 @@ void				ft_presizion_memory(t_struct *flags, char **a, uint64_t b)
 		*a = ft_strnew(0);
 	}
 }
+
+/*
+*** add functions for octet
+*/
+
+char				*ft_print_octet(int *tmp, int index)
+{
+	char			*d;
+	int				a;
+
+	a = 0;
+	d = ft_strnew(25);
+	while (index >= 0)
+	{
+		d[a] = tmp[index] + 48;
+		index--;
+		a++;
+	}
+	return (d);
+}

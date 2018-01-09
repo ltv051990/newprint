@@ -12,9 +12,10 @@
 
 #include "../include/ft_printf.h"
 
-static		void	ft_octet_with_prezition(char **a, uint64_t b, t_struct *flags)
+static		void		ft_octet_with_prezition(char **a, uint64_t b,\
+											t_struct *flags)
 {
-	char *src;
+	char				*src;
 
 	src = NULL;
 	flags->count_nb = ft_strlen(*a);
@@ -28,7 +29,7 @@ static		void	ft_octet_with_prezition(char **a, uint64_t b, t_struct *flags)
 	}
 	if (flags->sharp == 1 && b != 0 && flags->presizion <= flags->count_nb)
 	{
-	 	src = ft_strjoin("0", *a);
+		src = ft_strjoin("0", *a);
 		ft_strdel(a);
 		*a = src;
 	}
@@ -39,10 +40,35 @@ static		void	ft_octet_with_prezition(char **a, uint64_t b, t_struct *flags)
 	}
 }
 
-static		void	ft_hex_octet_minsize(char **a, t_struct *flags)
+static		void		ft_hex_octet_minsizep2(char **a, t_struct *flags,\
+											int delta_size)
 {
-	char *g;
-	int delta_size;
+	char				*g;
+
+	g = ft_strnew(flags->min_size);
+	if (delta_size > 0 && flags->minus == '-')
+	{
+		g = ft_strcpy(g, *a);
+		ft_memset(g + ft_strlen(*a), ' ', delta_size);
+	}
+	else if (flags->minus != '-' && flags->zero == '\0')
+	{
+		ft_memset(g, ' ', delta_size);
+		g = ft_strcat(g, *a);
+	}
+	else if (flags->minus != '-' && flags->zero == '0' && flags->sharp == 0)
+	{
+		ft_memset(g, '0', delta_size);
+		g = ft_strcat(g, *a);
+	}
+	ft_strdel(a);
+	*a = g;
+}
+
+static		void		ft_hex_octet_minsize(char **a, t_struct *flags)
+{
+	char				*g;
+	int					delta_size;
 
 	if (flags->presizion >= 0 && flags->min_size > (int)ft_strlen(*a))
 	{
@@ -50,61 +76,27 @@ static		void	ft_hex_octet_minsize(char **a, t_struct *flags)
 		if (flags->minus == '-')
 		{
 			g = ft_strcpy(g, *a);
-			ft_memset(g + ft_strlen(*a), ' ', flags->min_size - (int)ft_strlen(*a));
+			ft_memset(g + ft_strlen(*a), ' ',\
+						flags->min_size - (int)ft_strlen(*a));
 		}
 		else
 		{
 			ft_memset(g, ' ', flags->min_size - (int)ft_strlen(*a));
-			ft_strcat(g, *a);	
+			ft_strcat(g, *a);
 		}
 		ft_strdel(a);
 		*a = g;
 	}
 	delta_size = ft_min_pole_s(flags, (int)ft_strlen(*a));
 	if (flags->presizion == -1 && delta_size > 0)
-	{
-		g = ft_strnew(flags->min_size);
-		if (delta_size > 0 && flags->minus == '-')
-		{
-			g = ft_strcpy(g, *a);
-			ft_memset(g + ft_strlen(*a), ' ', delta_size);
-		}
-		else if (flags->minus != '-' && flags->zero == '\0')
-		{
-			ft_memset(g, ' ', delta_size);
-			g = ft_strcat(g, *a);
-		}
-		else if (flags->minus != '-' && flags->zero == '0' && flags->sharp == 0)
-		{
-				ft_memset(g, '0', delta_size);
-				g = ft_strcat(g, *a);
-		}
-		ft_strdel(a);
-		*a = g;
-	}
+		ft_hex_octet_minsizep2(a, flags, delta_size);
 }
 
-static char	*ft_print_octet(int *tmp, int index)
+static	char			*ft_find_octet(char *av)
 {
-	char *d;
-	int a;
-
-	a = 0;
-	d = ft_strnew(25);
-	while (index >= 0)
-	{
-		d[a] = tmp[index] + 48;
-		index--;
-		a++;
-	}
-	return (d);
-}
-
-static char	*ft_find_octet(char *av)
-{
-	unsigned long int a;
-	int index;
-	int tmp[20];
+	unsigned long int	a;
+	int					index;
+	int					tmp[20];
 
 	a = ft_atoi_long(av);
 	if (a == 0)
@@ -119,11 +111,11 @@ static char	*ft_find_octet(char *av)
 	return (ft_print_octet(tmp, index - 1));
 }
 
-void	ft_print_o(va_list ap, t_struct *flags, char format)
+void					ft_print_o(va_list ap, t_struct *flags, char format)
 {
-	uint64_t		a;
-	char			*k;
-	char			*b;
+	uint64_t			a;
+	char				*k;
+	char				*b;
 
 	if (format == 'o')
 		ft_take_unsigned_xo(&a, ap, flags);
