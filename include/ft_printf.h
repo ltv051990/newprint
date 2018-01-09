@@ -47,6 +47,7 @@ typedef struct	s_struct
 	int 		count_nb;
 	int 		un_costil;
 	char 		char_costil;
+	int 		size;
 }				t_struct;
 
 uint64_t	ft_atoi_long(char *str);
@@ -70,6 +71,7 @@ void		ft_un_big_digit(va_list ap, t_struct *flags);
 void		ft_print_x(va_list ap, t_struct *flags, char format);
 void		ft_print_o(va_list ap, t_struct *flags, char format);
 void		ft_take_unsigned_xo(uint64_t *b, va_list ap, t_struct *flags);
+void		ft_presizion_memory(t_struct *flags, char **a, uint64_t b);
 int			ft_printf(const char *format, ...);
 
 #endif
