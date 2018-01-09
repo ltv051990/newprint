@@ -48,6 +48,7 @@ typedef struct	s_struct
 	int 		un_costil;
 	char 		char_costil;
 	int 		size;
+	char 		*src;
 }				t_struct;
 
 uint64_t	ft_atoi_long(char *str);
@@ -74,6 +75,10 @@ void		ft_take_unsigned_xo(uint64_t *b, va_list ap, t_struct *flags);
 void		ft_presizion_memory(t_struct *flags, char **a, uint64_t b);
 char		*ft_print_octet(int *tmp, int index);
 void		ft_toapper_if_x(char **a, char x);
+size_t		ft_search_un(uint64_t nb);
+size_t		ft_search_dig(long long int nb);
+void		ft_take_ud(uint64_t *b, va_list ap, t_struct *flags);
+void		ft_nbstr_with_minsize(char **a, t_struct *flags);
 int			ft_printf(const char *format, ...);
 
 #endif
