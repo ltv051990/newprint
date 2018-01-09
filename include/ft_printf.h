@@ -43,9 +43,10 @@ typedef struct	s_struct
 	char		minus; 			// флаг мінуса
 	char		zero; 			// флаг нуля
 	char		mod_size;		// специфікатор розміру
-	size_t		write_count;	// кількість зчитаних байт
+	int			write_count;	// кількість зчитаних байт
 	char		*string;		// для друку
 	int 		count_nb;		// рахуємо кількість символів в числі (знак не враховуємо)
+	int 		un_costil;
 	char 		char_costil;	// костиль для процента
 }				t_struct;
 
