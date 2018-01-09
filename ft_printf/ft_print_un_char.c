@@ -6,7 +6,7 @@
 /*   By: tlutsyk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/30 15:50:23 by tlutsyk           #+#    #+#             */
-/*   Updated: 2018/01/09 13:04:36 by tlutsyk          ###   ########.fr       */
+/*   Updated: 2018/01/09 13:39:42 by tlutsyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,17 @@ void				ft_print_unicode_char(va_list ap, t_struct *flags)
 	int				min_size;
 	
 	a = va_arg(ap, unsigned int);
+	if (MB_CUR_MAX == 1 && (a > 127 && a < 256))
+	{
+		write(1, &a, 1);
+		flags->write_count += 1;
+		return ;
+	}
+	if (MB_CUR_MAX == 1 && a > 255)
+	{
+		flags->write_count = -1;
+		return ;
+	}
 	nb_bite = count_bite(a);
 	min_size = ft_min_pole_s(flags, nb_bite);
 	flags->write_count += nb_bite + min_size;
