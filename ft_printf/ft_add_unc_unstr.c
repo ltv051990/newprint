@@ -89,3 +89,16 @@ char				*ft_print_octet(int *tmp, int index)
 	}
 	return (d);
 }
+
+void				ft_toapper_if_x(char **a, char x)
+{
+	int				index;
+
+	index = 0;
+	if (x == 'X')
+		while ((*a)[index] != '\0')
+		{
+			(*a)[index] = ft_toupper((*a)[index]);
+			index++;
+		}
+}
