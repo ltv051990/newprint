@@ -40,10 +40,8 @@ void		ft_print_un_string_with(t_struct *flags, int *pok, int min_size)
 		}
 	}
 	else
-	{
 		while (*pok)
 			ft_putchar_un(*pok++);
-	}
 }
 
 /*
