@@ -31,3 +31,16 @@ int					ft_cur_max(unsigned int *a, t_struct *flags)
 	}
 	return (1);
 }
+
+/*
+*** there i find min_size of output
+*/
+
+int		ft_min_pole_s(t_struct *flags, int length)
+{
+	if (flags->min_size == -1)
+		return (0);
+	if (flags->min_size <= length)
+		return (0);
+	return (flags->min_size - length);
+}
