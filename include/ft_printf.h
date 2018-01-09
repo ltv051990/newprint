@@ -54,7 +54,6 @@ char		*ft_print_hex(int *tmp, int index);
 char		*ft_find_hex(char *av);
 int			ft_presizion_s(t_struct *flags, int size_argum);
 int			ft_min_pole_s(t_struct *flags, int size_argum);
-void		ft_printf_s_with_size(t_struct *flags, int length, int min_size);
 void		ft_print_s(va_list ap, t_struct *flags, int prapor);
 void		ft_print_c(char alpha, t_struct *flags);
 void		ft_start_read_c(char format, va_list ap, t_struct *flags);
