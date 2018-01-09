@@ -12,9 +12,9 @@
 
 #include "../include/ft_printf.h"
 
-uint64_t	ft_atoi_long(char *str)
+uint64_t					ft_atoi_long(char *str)
 {
-	unsigned long long int res;
+	unsigned long long int	res;
 
 	res = 0;
 	while (*str >= '0' && *str <= '9')
@@ -29,10 +29,10 @@ uint64_t	ft_atoi_long(char *str)
 *** write to string in 16 base
 */
 
-char					*ft_print_hex(int *tmp, int index)
+char						*ft_print_hex(int *tmp, int index)
 {
-	char	*d;
-	int		a;
+	char					*d;
+	int						a;
 
 	d = ft_strnew(20);
 	a = 0;
@@ -52,7 +52,7 @@ char					*ft_print_hex(int *tmp, int index)
 *** write to int tab mod/16 base
 */
 
-char							*ft_find_hex(char *av)
+char						*ft_find_hex(char *av)
 {
 	unsigned long long int	a;
 	int						index;
@@ -75,8 +75,8 @@ char							*ft_find_hex(char *av)
 *** write write res when size 0
 */
 
-void							ft_print_p_with_size(t_struct *flags, \
-								char *b, int min_size)
+void						ft_print_p_with_size(t_struct *flags, \
+							char *b, int min_size)
 {
 	if (flags->minus == '-')
 	{
@@ -94,37 +94,11 @@ void							ft_print_p_with_size(t_struct *flags, \
 	}
 }
 
-/*
-*** find print size malloc char * and free and write res when size 0
-*/
-
-void	ft_presizion_memory(t_struct *flags, char **a, uint64_t b)
+void						ft_print_p(va_list ap, t_struct *flags)
 {
-	char *src;
-
-	src = NULL;
-	flags->count_nb = ft_strlen(*a);
-	if (flags->presizion > flags->count_nb)
-	{
-		src = ft_strnew(flags->presizion);
-		ft_memset(src, '0', flags->presizion - flags->count_nb);
-		src = ft_strcat(src, *a);
-		ft_strdel(a);
-		*a = src;
-	}
-	if (b == 0 && flags->presizion == 0)
-	{
-		ft_strdel(&src);
-		*a = ft_strnew(0);
-	}
-}
-
-void							ft_print_p(va_list ap, t_struct *flags)
-{
-	unsigned long	a;
-	char			*k;
-	char			*b;
-	int				min_size;
+	unsigned long			a;
+	char					*k;
+	char					*b;
 
 	a = va_arg(ap, unsigned long);
 	k = ft_itoa(a);
@@ -136,15 +110,15 @@ void							ft_print_p(va_list ap, t_struct *flags)
 		ft_strdel(&k);
 	}
 	if (flags->presizion != -1)
-	ft_presizion_memory(flags, &b, a);
-	min_size = ft_min_pole_s(flags, ft_strlen(b) + 2);
-	if (min_size != 0)
-		ft_print_p_with_size(flags, b, min_size);
+		ft_presizion_memory(flags, &b, a);
+	flags->size = ft_min_pole_s(flags, ft_strlen(b) + 2);
+	if (flags->size != 0)
+		ft_print_p_with_size(flags, b, flags->size);
 	else
 	{
 		write(1, "0x", 2);
 		write(1, b, ft_strlen(b));
 	}
-	flags->write_count += 2 + ft_strlen(b) + min_size;
+	flags->write_count += 2 + ft_strlen(b) + flags->size;
 	ft_strdel(&b);
 }

@@ -36,11 +36,36 @@ int					ft_cur_max(unsigned int *a, t_struct *flags)
 *** there i find min_size of output
 */
 
-int		ft_min_pole_s(t_struct *flags, int length)
+int					ft_min_pole_s(t_struct *flags, int length)
 {
 	if (flags->min_size == -1)
 		return (0);
 	if (flags->min_size <= length)
 		return (0);
 	return (flags->min_size - length);
+}
+
+/*
+*** find print size malloc char * and free and write res when size 0
+*/
+
+void				ft_presizion_memory(t_struct *flags, char **a, uint64_t b)
+{
+	char			*src;
+
+	src = NULL;
+	flags->count_nb = ft_strlen(*a);
+	if (flags->presizion > flags->count_nb)
+	{
+		src = ft_strnew(flags->presizion);
+		ft_memset(src, '0', flags->presizion - flags->count_nb);
+		src = ft_strcat(src, *a);
+		ft_strdel(a);
+		*a = src;
+	}
+	if (b == 0 && flags->presizion == 0)
+	{
+		ft_strdel(&src);
+		*a = ft_strnew(0);
+	}
 }
